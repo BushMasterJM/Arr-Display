@@ -1,0 +1,24 @@
+
+services:
+  fastapi-app:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Specify the name of your Dockerfile if it's not just 'Dockerfile'
+    container_name: fastapi-app-container
+    ports:
+      - "6901:6901"  # Radarr count script
+      - "6902:6902"  # Sonarr count script
+      - "6903:6903"  # Radarr poster script
+      - "6904:6904"  # Sonarr poster script
+    environment:
+      - RADARR_API_KEY=${RADARR_API_KEY}
+      - RADARR_URL=${RADARR_URL}
+      - SONARR_API_KEY=${SONARR_API_KEY}
+      - SONARR_URL=${SONARR_URL}
+      - ENABLE_RADARR_COUNT_SCRIPT=${ENABLE_RADARR_COUNT_SCRIPT}
+      - ENABLE_SONARR_COUNT_SCRIPT=${ENABLE_SONARR_COUNT_SCRIPT}
+      - ENABLE_RADARR_POSTER_SCRIPT=${ENABLE_RADARR_POSTER_SCRIPT}
+      - ENABLE_SONARR_POSTER_SCRIPT=${ENABLE_SONARR_POSTER_SCRIPT}
+    volumes:
+      - ./app:/app  # Mounts your project directory into the container (optional, for easy dev)
+    restart: unless-stopped  # Keeps the container running unless stopped manually
